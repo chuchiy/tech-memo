@@ -3,7 +3,7 @@
 ## 机器配置
 
 - i5-9400
-- 8G DDR4 2666 x 1 (SK Hynix)
+- 8G DDR4 2666 x 1 (SK Hynix) 
 - GTX 1660Ti 6GB
 - 256G NVME SSD (Samsung)
 - 1TB 硬盘
@@ -11,6 +11,8 @@
 - 带一个3.5寸热插拔硬盘槽
 - 带Win10
 - 长32.6 宽16.5 高40.4 18L机箱
+
+自己加了一根Apacer Panther 8GB DDR4 2666内存，使用没有问题，但内存会降频到2133
 
 ## 安装Linux
 
@@ -80,7 +82,13 @@ systemctl set-default multi-user.target #将系统的runlevel设成命令行，�
 
 ### 硬件时钟不是UTC
 Windows在默认情况下认为硬件时钟是本地时间，Linux默认认为硬件时钟是UTC时间，Linux需要配置
-@TODO
+
+```
+sudo timedatectl set-timezone Asia/Shanghai
+sudo systemctl enable chronyd
+sudo systemctl start chronyd
+sudo hwclock --systohc --localtime
+```
 
 
 ## 下一步工作
