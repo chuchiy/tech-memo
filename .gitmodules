@@ -1,0 +1,3 @@
+[submodule "ctime.date/themes/ezhil"]
+	path = ctime.date/themes/ezhil
+	url = https://github.com/vividvilla/ezhil.git

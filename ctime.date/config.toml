@@ -1,0 +1,29 @@
+baseURL = "https://ctime.date/"
+languageCode = "zh-cn"
+title = "Chu-Chi Yang技术随笔"
+theme = "ezhil"
+
+pygmentsstyle = "solarized-dark"
+pygmentscodefences = true
+pygmentscodefencesguesssyntax = true
+
+summaryLength = 20
+
+
+[params]
+subtitle = "Write clearly -- don't be too clever."
+mode = "auto"
+
+[[menu.main]]
+name = "Tags"
+url = "/tags"
+weight = 4
+
+[[params.social]]
+name = "Github"
+icon = "github"
+url = "https://github.com/chuchiy"
+
+# Enable tags.
+[taxonomies]
+   tag = "tags"
