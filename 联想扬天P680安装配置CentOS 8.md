@@ -12,11 +12,16 @@
 - 带Win10
 - 长32.6 宽16.5 高40.4 18L机箱
 
-## 安装Linux目标
+## 安装Linux
+
+### 使用目标
 - 使用CentOS 8, 在设备生命周期类操作系统不更换
 - 桌面CPU的个人工作站, 显示驱动正确
 - 运行CUDA的设备
 - 运行Podman的容器化宿主
+
+### 安装流程
+安装linux/windows双系统，在windows中在SSD中用压缩硬盘为linux留出足够的未分配空间(如100G)，U盘启动CentOS 8安装，在分区的地方选择SSD，使用手动分区模式，让程序自动分配存储卷和挂载点，安装程序应该可以自动将未分配磁盘空间都使用掉并保留windows的分区，安装角色使用workstion，CentOS会自动配置好双启动。
 
 ## 问题解决
 
@@ -27,9 +32,11 @@
 这个机器的无线网卡型号rtl8821ce, linux内核和各个发行版中都没有驱动，目前有一个民间维护的驱动<https://github.com/tomaspinho/rtl8821ce>。这个驱动是为Arch Linux和Ubuntu设计的，标准安装流程：
 
 ```
-git clone https://github.com/tomaspinho/rtl8821ce
 sudo dnf install epel-release -y
 sudo dnf install kernel-devel dkms -y
+sudo dnf group install "Development Tools"
+git clone https://github.com/tomaspinho/rtl8821ce
+cd rtl8821ce
 sudo sh ./dkms-install.sh
 ```
 
@@ -54,3 +61,28 @@ sudo sh ./dkms-install.sh
    
 
 ### NV显卡驱动与X11桌面
+
+设备配置使用集成显卡安装结束后进入Linux桌面会有两个问题:
+
+1. 集显的HDMI版本为1.4，4K输出刷新率只能是30Hz
+2. 在集显模式下操作系统是看不到NV的独立显卡的
+
+因此需要先安装NV官方的[CUDA 10.2](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&target_distro=CentOS&target_version=8&target_type=rpmlocal)，安装结束后执行:
+
+```
+nvidia-xconfig #生成X11桌面的配置
+systemctl set-default multi-user.target #将系统的runlevel设成命令行，原因下述
+```
+
+重启进入BIOS，将显卡使用更改为使用独立显卡，将视频输出接到独立显卡上，系统启动后会先进入命令行登录，进入命令行后执行`systemctl isolate graphical.target`进入图形登录界面，输入用户密码进入用户桌面。
+
+目前的问题是如果我直接将系统的runlevel设置为graphical.target，系统启动后可以进入图形登录界面，但在输入用户名密码后是无法进入桌面的，一直黑屏，查相关日志能看到X11报错，具体的解决方法还需要进一步研究。
+
+### 硬件时钟不是UTC
+Windows在默认情况下认为硬件时钟是本地时间，Linux默认认为硬件时钟是UTC时间，Linux需要配置
+@TODO
+
+
+## 下一步工作
+* 正确的Patch目前的rtl8821ce驱动，让其默认编译可以在Centos 8以及其他发行版上可以工作
+* 研究开机启动直接进入图形模式登录后无法进入用户桌面的问题
