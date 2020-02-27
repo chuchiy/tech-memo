@@ -15,6 +15,12 @@ subtitle = "Write clearly -- don't be too clever."
 mode = "auto"
 
 [[menu.main]]
+name = "About"
+url = "/about"
+weight = 10
+
+
+[[menu.main]]
 name = "Tags"
 url = "/tags"
 weight = 4
