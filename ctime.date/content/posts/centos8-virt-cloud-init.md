@@ -68,7 +68,7 @@ restorecon -v '/data/vm/centos8-test.qcow2'
 
 参考[Redhat 7的cloud init配置文档], 准备meta-data和user-data两个文件
 
-meta-data中定义虚拟机的主机名之类信息，网络配置也在里面
+meta-data中定义虚拟机的主机名之类信息，如果有格外的网络配置也在里面(默认是DHCP获取IP)
 
 ```
 instance-id: Centos8test
@@ -111,7 +111,7 @@ genisoimage -output /data/vm/centos8-test-cidata.iso -volid cidata -joliet -rock
 sudo virt-install --name centos8-test1 --memory 1024 --vcpus 1 --os-variant rhel8.0 --import --disk /data/vm/centos8-test.qcow2 --disk /data/vm/centos8-test-cidata.iso --graphics none
 ```
 
-使用virsh来管理虚拟机，注意virsh需要以root权限执行，否则virsh看不到在允许的虚拟机
+使用virsh来管理虚拟机，注意virsh需要以root权限执行，否则virsh看不到在运行的虚拟机
 
 ```
 virsh # list
