@@ -9,6 +9,8 @@ pygmentscodefencesguesssyntax = true
 
 summaryLength = 20
 
+enableRobotsTXT = true
+
 
 [params]
 subtitle = "Write clearly -- don't be too clever."

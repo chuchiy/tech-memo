@@ -1,0 +1,20 @@
+# https://taskfile.dev
+
+version: '2'
+
+vars:
+  HOST: root@ctime.date
+
+tasks:
+  build:
+    desc: build site
+    cmds:
+      - hugo
+
+  rls:
+    desc: release site
+    deps: [build]
+    cmds:
+      - cd public/ && tar cvf ../site.tar *
+      - scp -r site.tar {{ .HOST }}:./
+      - ssh {{ .HOST }} 'rm -rf /var/www/static/ctime.date/* && cd /var/www/static/ctime.date && tar xvf ~/site.tar'
